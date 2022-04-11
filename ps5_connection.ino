@@ -32,7 +32,7 @@ struct PS5_input{
   struct axis{
     uint8_t x = 0, 
             y = 0;
-  }r, l;
+  }r_stick, l_stick;
   
   uint8_t r2_val    = 0,
           l2_val    = 0;
@@ -66,10 +66,10 @@ void loop() {
     ps.button ^= L1_BUTTON; 
   }
 
-  ps.r.x = PS5.getAnalogHat(RightHatX);
-  ps.r.y = PS5.getAnalogHat(RightHatY);
-  ps.l.x = PS5.getAnalogHat(LeftHatX);
-  ps.l.y = PS5.getAnalogHat(LeftHatY);
+  ps.r_stick.x = PS5.getAnalogHat(RightHatX);
+  ps.r_stick.y = PS5.getAnalogHat(RightHatY);
+  ps.l_stick.x = PS5.getAnalogHat(LeftHatX);
+  ps.l_stick.y = PS5.getAnalogHat(LeftHatY);
 
   ps.r2_val = PS5.getAnalogButton(R2);
   ps.l2_val = PS5.getAnalogButton(L2);
@@ -79,6 +79,8 @@ void loop() {
     PS5.setRumbleOn(RumbleHigh);
     //ただの意地悪
   }
+  
+  Serial.write((uint8_t*)&ps, sizeof(PS5_input));
 
-  Serial.write(tx_buff, sizeof(tx_buff));
+  delay(1);
 }
